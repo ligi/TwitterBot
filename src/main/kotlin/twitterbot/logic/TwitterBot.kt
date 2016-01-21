@@ -25,7 +25,9 @@ object TwitterBot {
                 if (!state.seen_tweets_to_retweet_count.containsKey(status.id.toString())) {
                     println("new >" + status.text)
                     if (status.text.toUpperCase().contains("JOB")) {
-                        val newStatus = "@${config.target_account}" + config.getMaybeRandomSignatureWithMaxLength(MAX_TWEET_LENGTH - config.target_account.length + 1)
+                        val payload_max_length = MAX_TWEET_LENGTH - config.target_account.length + 1
+                        val payload = config.getMaybeRandomSignatureWithMaxLength(payload_max_length)
+                        val newStatus = "@${config.target_account} $payload"
                         println("tweeting> $newStatus")
                         twitter.updateStatus(newStatus)
                         Sleeper.sleep(config)
