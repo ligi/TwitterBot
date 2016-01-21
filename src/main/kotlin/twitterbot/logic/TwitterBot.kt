@@ -43,9 +43,13 @@ object TwitterBot {
             config.retweet_accounts.forEach {
                 for (status in twitter.getUserTimeline(it)) {
                     if (state.maybeUpdateLastSeenTweetDate(status.createdAt)) {
-                        twitter.retweetStatus(status.id)
-                        println("retweeting> " + status.text)
-                        Sleeper.sleep(config)
+                        if (!status.isRetweet) {
+                            twitter.retweetStatus(status.id)
+                            println("retweeting> " + status.text)
+                            Sleeper.sleep(config)
+                        } else {
+                            println("not retweeting retweet> " + status.text)
+                        }
                     }
                 }
             }
