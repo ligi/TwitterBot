@@ -1,0 +1,24 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-4584'
+    }
+}
+
+apply plugin: "kotlin"
+apply plugin: 'application'
+
+mainClassName = "twitterbot.MainKt"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0-beta-4584'
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+    compile 'com.squareup.moshi:moshi:1.0.0'
+}
+
