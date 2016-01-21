@@ -14,7 +14,7 @@ object TwitterBot {
         try {
 
             val twitter = api.twitter
-            val retweeeterSet = TreeSet<String>()
+            val retweeterSet = TreeSet<String>()
 
             val state = persistentState.state!!
 
@@ -35,7 +35,7 @@ object TwitterBot {
                     state.seen_tweets_to_retweet_count = state.seen_tweets_to_retweet_count.plus(Pair(status.id.toString(), status.retweetCount))
                 } else if (status.retweetCount > state.seen_tweets_to_retweet_count[status.id.toString()]!!) {
                     for (status1 in twitter.getRetweets(status.id)) {
-                        retweeeterSet.add(status1.user.screenName)
+                        retweeterSet.add(status1.user.screenName)
                     }
                 }
             }
@@ -50,7 +50,7 @@ object TwitterBot {
                 }
             }
 
-            val newRetweeters = retweeeterSet.minus(state.processed_retweeters);
+            val newRetweeters = retweeterSet.minus(state.processed_retweeters);
 
             if (!newRetweeters.isEmpty()) {
 
