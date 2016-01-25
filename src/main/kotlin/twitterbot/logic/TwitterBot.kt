@@ -27,7 +27,8 @@ object TwitterBot {
                     if (status.text.toUpperCase().contains("JOB")) {
                         val payload_max_length = MAX_TWEET_LENGTH - config.target_account.length + 1
                         val payload = config.getMaybeRandomSignatureWithMaxLength(payload_max_length)
-                        val newStatus = "@${config.target_account} $payload"
+                        val entropy = SymbolPool.getRandomString(length = Math.min(5, payload_max_length))
+                        val newStatus = "@${config.target_account} $payload $entropy"
                         println("tweeting> $newStatus")
                         twitter.updateStatus(newStatus)
                         Sleeper.sleep(config)
