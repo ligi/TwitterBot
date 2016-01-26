@@ -11,10 +11,11 @@ import java.io.File
 fun main(args: Array<String>) {
     println("> Bot init.")
 
-    val persistedConfig = JSONPersisted(File("config.json"), Config())
+    val config_file = File("config.json")
+    val persistedConfig = JSONPersisted(config_file, Config())
 
     if (persistedConfig.get().throw_not_configured) {
-        throw RuntimeException("Please edit config.json")
+        throw RuntimeException("Please edit $config_file")
     }
 
     val persistedState = JSONPersisted(File("state.json"), State())
