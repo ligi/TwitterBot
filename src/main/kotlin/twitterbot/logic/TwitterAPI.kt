@@ -1,26 +1,24 @@
 package twitterbot.logic
 
 import twitterbot.model.Config
-import twitterbot.model.JSONPersistedState
 import twitter4j.TwitterException
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import java.util.*
-
+import twitterbot.model.State
 
 class TwitterAPI {
 
     val twitter = TwitterFactory.getSingleton()
 
-    constructor(config: Config, persistentState: JSONPersistedState) {
+    constructor(config: Config, persistentState: JSONPersisted<State>) {
 
         twitter.setOAuthConsumer(config.oauth_consumer_key, config.oauth_consumer_secret)
         val requestToken = twitter.oAuthRequestToken
         var accessToken: AccessToken? = null
 
-        val state = persistentState.state!!
+        val state = persistentState.get()
 
         if (state.authToken != null) {
             twitter.oAuthAccessToken = AccessToken(state.authToken, state.authSecret)

@@ -3,22 +3,28 @@ package twitterbot
 import twitterbot.logic.Sleeper
 import twitterbot.logic.TwitterAPI
 import twitterbot.logic.TwitterBot
-import twitterbot.model.JSONPersistedConfig
-import twitterbot.model.JSONPersistedState
+import twitterbot.model.Config
+import twitterbot.logic.JSONPersisted
+import twitterbot.model.State
 import java.io.File
 
 fun main(args: Array<String>) {
     println("> Bot init.")
 
-    val persistedConfig = JSONPersistedConfig(File("config.json"))
-    val persistedState = JSONPersistedState(File("state.json"))
+    val persistedConfig = JSONPersisted(File("config.json"), Config())
 
-    val config = persistedConfig.config!!
+    if (persistedConfig.get().throw_not_configured) {
+        throw RuntimeException("Please edit config.json")
+    }
+
+    val persistedState = JSONPersisted(File("state.json"), State())
+
+    val config = persistedConfig.get()
 
     val twitterAPI = TwitterAPI(config, persistedState)
 
-    while(true) {
-        TwitterBot.process(twitterAPI,config, persistedState)
+    while (true) {
+        TwitterBot.process(twitterAPI.twitter, config, persistedState)
         Sleeper.sleep(config)
     }
 }

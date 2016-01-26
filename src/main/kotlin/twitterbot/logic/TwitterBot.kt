@@ -1,22 +1,20 @@
 package twitterbot.logic
 
+import twitter4j.Twitter
 import twitter4j.TwitterException
 import twitterbot.model.Config
-import twitterbot.model.JSONPersistedState
+import twitterbot.model.State
 import java.util.*
-
 
 object TwitterBot {
 
     val MAX_TWEET_LENGTH = 140
 
-    fun process(api: TwitterAPI, config: Config, persistentState: JSONPersistedState) {
+    fun process(twitter: Twitter, config: Config, persistentState: JSONPersisted<State>) {
         try {
-
-            val twitter = api.twitter
             val retweeterSet = TreeSet<String>()
 
-            val state = persistentState.state!!
+            val state = persistentState.get()
 
             for (status in twitter.getUserTimeline(config.target_account)) {
 
@@ -78,7 +76,7 @@ object TwitterBot {
             persistentState.write()
 
         } catch (exception: TwitterException) {
-            println("got TwitterException - will try again later ")
+            println("got TwitterException - will try again later " + exception.message)
         }
     }
 
