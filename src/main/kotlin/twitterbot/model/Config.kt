@@ -11,6 +11,4 @@ class Config(val oauth_consumer_key: String = "please_enter_key",
              val noise_symbols: Set<String> = HashSet(),
              val min_time_between_checks: Long = 60,
              val max_additional_random_time_between_checks: Long = 180,
-             var throw_not_configured: Boolean = true) {
-
-}
+             var throw_not_configured: Boolean = true)
