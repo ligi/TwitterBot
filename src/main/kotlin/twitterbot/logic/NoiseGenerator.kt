@@ -18,14 +18,14 @@ class NoiseGenerator(val config: Config) {
 
 
     fun getMaybeRandomRetweetReplyWithMaxLength(maxLength: Int): String {
-        return getMaybeRandomString(maxLength, config.retweet_replies)
+        return getMaybeRandomStringFromSet(maxLength, config.retweet_replies)
     }
 
     fun getMaybeRandomSignatureWithMaxLength(maxLength: Int): String {
-        return getMaybeRandomString(maxLength, config.signatures)
+        return getMaybeRandomStringFromSet(maxLength, config.signatures)
     }
 
-    private fun getMaybeRandomString(maxLength: Int, from: Set<String>): String {
+    private fun getMaybeRandomStringFromSet(maxLength: Int, from: Set<String>): String {
         val random = (Math.random() * from.size).toInt()
         val randomSignature = from.toList()[random]
         if (randomSignature.length < maxLength) {
