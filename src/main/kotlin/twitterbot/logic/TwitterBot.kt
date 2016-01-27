@@ -12,6 +12,7 @@ object TwitterBot {
 
     fun process(twitter: Twitter, config: Config, persistentState: JSONPersisted<State>) {
         try {
+            val noiseGenerator = NoiseGenerator(config)
             val retweeterSet = TreeSet<String>()
 
             val state = persistentState.get()
@@ -24,8 +25,8 @@ object TwitterBot {
                     println("new >" + status.text)
                     if (status.text.toUpperCase().contains("JOB")) {
                         val payload_max_length = MAX_TWEET_LENGTH - config.target_account.length + 1
-                        val payload = config.getMaybeRandomSignatureWithMaxLength(payload_max_length)
-                        val entropy = SymbolPool.getRandomString(length = Math.min(5, payload_max_length))
+                        val payload = noiseGenerator.getMaybeRandomSignatureWithMaxLength(payload_max_length)
+                        val entropy = noiseGenerator.getRandomString(length = Math.min(5, payload_max_length))
                         val newStatus = "@${config.target_account} $payload $entropy"
                         println("tweeting> $newStatus")
                         twitter.updateStatus(newStatus)
@@ -58,9 +59,9 @@ object TwitterBot {
             if (!newRetweeters.isEmpty()) {
 
                 newRetweeters.forEach {
-                    var newStatus = "@$it " + config.getMaybeRandomRetweetReplyWithMaxLength(MAX_TWEET_LENGTH - it.length)
+                    var newStatus = "@$it " + noiseGenerator.getMaybeRandomRetweetReplyWithMaxLength(MAX_TWEET_LENGTH - it.length)
                     if (newStatus.length < MAX_TWEET_LENGTH) {
-                        newStatus += " " + config.getMaybeRandomSignatureWithMaxLength(MAX_TWEET_LENGTH - newStatus.length)
+                        newStatus += " " + noiseGenerator.getMaybeRandomSignatureWithMaxLength(MAX_TWEET_LENGTH - newStatus.length)
 
                         newStatus = newStatus.replace("ORIGIN_ACCOUNT", config.target_account)
                         println("tweeting> $newStatus")
