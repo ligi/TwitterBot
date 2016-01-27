@@ -2,9 +2,9 @@ package twitterbot.logic
 
 import twitterbot.model.Config
 
-class NoiseGenerator(val config: Config) {
+class StringGenerator(val config: Config) {
 
-    public fun getRandomString(length: Int): String {
+    public fun getNoiseString(length: Int): String {
 
         val sb = StringBuffer();
 

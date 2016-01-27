@@ -12,7 +12,7 @@ object TwitterBot {
 
     fun process(twitter: Twitter, config: Config, persistentState: JSONPersisted<State>) {
         try {
-            val noiseGenerator = NoiseGenerator(config)
+            val noiseGenerator = StringGenerator(config)
             val retweeterSet = TreeSet<String>()
 
             val state = persistentState.get()
@@ -26,7 +26,7 @@ object TwitterBot {
                     if (status.text.toUpperCase().contains("JOB")) {
                         val payload_max_length = MAX_TWEET_LENGTH - config.target_account.length + 1
                         val payload = noiseGenerator.getMaybeRandomSignatureWithMaxLength(payload_max_length)
-                        val entropy = noiseGenerator.getRandomString(length = Math.min(5, payload_max_length))
+                        val entropy = noiseGenerator.getNoiseString(length = Math.min(5, payload_max_length))
                         val newStatus = "@${config.target_account} $payload $entropy"
                         println("tweeting> $newStatus")
                         twitter.updateStatus(newStatus)
