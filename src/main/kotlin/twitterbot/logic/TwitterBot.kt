@@ -23,7 +23,8 @@ object TwitterBot {
 
                 if (!state.seen_tweets_to_retweet_count.containsKey(status.id.toString())) {
                     println("new >" + status.text)
-                    if (status.text.toUpperCase().contains("JOB")) {
+
+                    if (containsKeyword(status.text,config)) {
                         val payload_max_length = MAX_TWEET_LENGTH - config.target_account.length + 1
                         val payload = noiseGenerator.getMaybeRandomSignatureWithMaxLength(payload_max_length)
                         val entropy = noiseGenerator.getNoiseString(length = Math.min(5, payload_max_length))
@@ -79,6 +80,15 @@ object TwitterBot {
         } catch (exception: TwitterException) {
             println("got TwitterException - will try again later " + exception.message)
         }
+    }
+
+    private fun containsKeyword(text : String,config : Config) : Boolean {
+        config.target_keywords.forEach {
+            if (text.toUpperCase().contains(it.toUpperCase())) {
+                return true
+            }
+        }
+        return false
     }
 
 }
