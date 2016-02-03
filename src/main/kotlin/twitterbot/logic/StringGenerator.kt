@@ -4,7 +4,7 @@ import twitterbot.model.Config
 
 class StringGenerator(val config: Config) {
 
-    public fun getNoiseString(length: Int): String {
+    fun getNoiseString(length: Int): String {
 
         val sb = StringBuffer();
 
