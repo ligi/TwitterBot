@@ -17,6 +17,10 @@ class StringGenerator(val config: Config) {
     }
 
 
+    fun getMaybeRandomFollowerMessage(maxLength: Int): String {
+        return getMaybeRandomStringFromSet(maxLength, config.follower_messages)
+    }
+
     fun getMaybeRandomRetweetReplyWithMaxLength(maxLength: Int): String {
         return getMaybeRandomStringFromSet(maxLength, config.retweet_replies)
     }

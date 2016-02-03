@@ -5,6 +5,7 @@ import java.util.*
 class Config(val oauth_consumer_key: String = "please_enter_key",
              val oauth_consumer_secret: String = "please_enter_secret",
              val target_account: String = "target_account",
+             val follower_messages: Set<String> = HashSet(),
              val target_keywords: Set<String> = HashSet(),
              val retweet_accounts: Set<String> = HashSet(),
              val retweet_replies: Set<String> = HashSet(),
