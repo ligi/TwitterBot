@@ -1,11 +1,13 @@
 buildscript {
     ext {
-        KOTLIN_VERSION = "1.0.0-beta-4589"
+        KOTLIN_VERSION = "1.0.0-rc-1025"
     }
 
     repositories {
         mavenCentral()
+        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     }
+    
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${KOTLIN_VERSION}"
     }
@@ -18,6 +20,7 @@ mainClassName = "twitterbot.MainKt"
 
 repositories {
     mavenCentral()
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
 }
 
 dependencies {
